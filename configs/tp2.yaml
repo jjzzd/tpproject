@@ -1,0 +1,41 @@
+model:
+  vocab_size: 260
+  num_layers: 8
+  hidden_size: 1024
+  num_attention_heads: 16
+  intermediate_size: 2816
+  max_text_length: 512
+  max_images: 2
+  image_size: 224
+  patch_size: 16
+  dropout: 0.0
+data:
+  mode: synthetic
+  path: data/raw/train.jsonl
+  image_root: data/raw
+  samples: 1024
+  num_workers: 4
+parallel:
+  strategy: tp
+  tensor_parallel: 2
+  pipeline_parallel: 1
+  data_parallel_shard: 1
+  pipeline_microbatches: 4
+optimizer:
+  type: fused_adamw
+  lr: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+training:
+  output_dir: runs/tp2
+  seed: 42
+  steps: 100
+  micro_batch_size: 1
+  gradient_accumulation_steps: 8
+  dtype: bfloat16
+  activation_checkpointing: true
+  grad_clip: 1.0
+  log_interval: 1
+  checkpoint_interval: 50
+  compile: false
+

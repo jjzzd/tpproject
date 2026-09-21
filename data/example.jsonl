@@ -1,0 +1,4 @@
+{"text":"一张示例图片的文字描述。","image":"images/example.jpg"}
+{"prompt":"图片里有什么？","response":"这里是回答文本。","images":["images/a.jpg","images/b.jpg"]}
+{"messages":[{"role":"user","content":[{"type":"image","image":"images/c.jpg"},{"type":"text","text":"请描述图片。"}]},{"role":"assistant","content":"这里是图片描述。"}],"image":"images/c.jpg"}
+

@@ -1,0 +1,37 @@
+model:
+  vocab_size: 260
+  num_layers: 4
+  hidden_size: 256
+  num_attention_heads: 8
+  intermediate_size: 768
+  max_text_length: 128
+  max_images: 2
+  image_size: 64
+  patch_size: 16
+data:
+  mode: jsonl
+  path: data/raw/train.jsonl
+  image_root: data/raw
+  text_field: text
+  samples: 1024
+  num_workers: 0
+parallel:
+  strategy: single
+optimizer:
+  type: fused_adamw
+  lr: 0.0003
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+training:
+  output_dir: runs/jsonl-example
+  seed: 42
+  steps: 20
+  micro_batch_size: 2
+  gradient_accumulation_steps: 1
+  dtype: bfloat16
+  activation_checkpointing: true
+  grad_clip: 1.0
+  log_interval: 1
+  checkpoint_interval: 10
+  compile: false
+
