@@ -338,3 +338,43 @@ pytest -q
 - `src/mmtrain/inspect_data.py`：数据检查；
 - `configs/`：各并行策略配置。
 
+## 11. GitHub 与服务器自动同步
+
+仓库地址：
+
+```text
+https://github.com/jjzzd/tpproject.git
+```
+
+服务器首次部署：
+
+```bash
+cd ~/Sata2/sjw
+git clone https://github.com/jjzzd/tpproject.git multimodal-training
+cd multimodal-training
+bash scripts/install_server_sync.sh
+```
+
+安装后，服务器每分钟运行一次 `scripts/sync_from_git.sh`。该脚本执行：
+
+1. 检查 Git 管理的代码文件是否有服务器本地改动；
+2. 执行 `git fetch origin main`；
+3. 只接受 fast-forward 更新；
+4. 将输出记录到 `logs/git-sync.log`。
+
+它不会执行 `git reset --hard`，所以不会静默覆盖服务器上的代码修改。如果服务器代码有未提交修改，会停止同步并记录错误。数据、日志和 checkpoint 位于 `.gitignore` 覆盖范围内，不会随代码拉取被删除。
+
+检查同步：
+
+```bash
+crontab -l
+tail -f ~/Sata2/sjw/multimodal-training/logs/git-sync.log
+```
+
+卸载自动同步：
+
+```bash
+crontab -l | grep -v '/multimodal-training/scripts/sync_from_git.sh' | crontab -
+```
+
+如果仓库是私有仓库，服务器还需要配置只读 GitHub deploy key；不要把私钥、PAT 或密码写入本仓库。
