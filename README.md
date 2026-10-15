@@ -368,13 +368,13 @@ bash scripts/install_server_sync.sh
 
 ```bash
 crontab -l
-tail -f ~/Sata2/sjw/multimodal-training/logs/git-sync.log
+
 ```
 
 卸载自动同步：
 
 ```bash
-crontab -l | grep -v '/multimodal-training/scripts/sync_from_git.sh' | crontab -
+
 ```
 
 如果仓库是私有仓库，服务器还需要配置只读 GitHub deploy key；不要把私钥、PAT 或密码写入本仓库。
